@@ -1,10 +1,13 @@
 import { createContext, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
-  //====STATE===
+  //====VAR===
+
+  let navigate = useNavigate();
   const [data, setData] = useState(null);
   const [input, setInput] = useState({
     name: "",
@@ -50,6 +53,7 @@ export const GlobalProvider = (props) => {
         })
         .then((res) => {
           setFetchstatus(true);
+          navigate("/tugas15");
         });
     } else {
       axios
@@ -59,6 +63,7 @@ export const GlobalProvider = (props) => {
         )
         .then((res) => {
           setFetchstatus(true);
+          navigate("/tugas15");
         });
     }
 
@@ -88,15 +93,7 @@ export const GlobalProvider = (props) => {
   const handleEditData = (event) => {
     let idData = parseInt(event.target.value);
     setCurrentId(idData);
-
-    axios
-      .get(
-        `https://backendexample.sanbercloud.com/api/student-scores/${idData}`
-      )
-      .then((res) => {
-        let resultData = res.data;
-        setInput({ ...resultData });
-      });
+    navigate(`edit/${idData}`);
   };
 
   //fetchdata
